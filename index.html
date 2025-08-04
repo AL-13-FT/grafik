@@ -146,7 +146,7 @@
     });
 
     function updateChart() {
-      db.ref('/log').once('value').then((snapshot) => {
+      db.ref('/log').orderByKey().limitToLast(1440).once('value').then((snapshot) => {
         const data = snapshot.val();
         if (!data) return;
 
