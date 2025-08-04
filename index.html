@@ -149,12 +149,12 @@
       db.ref('/log').orderByKey().limitToLast(1440).once('value').then((snapshot) => {
         const data = snapshot.val();
         if (!data) return;
-
-        const sortedKeys = Object.keys(data).sort();
+    
+        const sortedKeys = Object.keys(data).sort((a, b) => Number(a) - Number(b));
         const labels = [];
         const tegangan = [];
         const arus = [];
-
+    
         sortedKeys.forEach(key => {
           const item = data[key];
           if (item.tegangan !== undefined && item.arus !== undefined) {
@@ -163,7 +163,7 @@
             arus.push(parseFloat(item.arus));
           }
         });
-
+    
         chart.data.labels = labels;
         chart.data.datasets[0].data = tegangan;
         chart.data.datasets[1].data = arus;
